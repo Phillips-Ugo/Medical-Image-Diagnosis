@@ -220,9 +220,10 @@ st.markdown("""
             overflow: hidden;
         }
         .chat-header {
-            background-color: #2980b9;
+            background-color: #D3D3D3
+            border-bottom: 1px solid #ccc;  
             color: white;
-            padding: 15px;
+            padding: 0px;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
@@ -337,15 +338,12 @@ elif selection == "💬 AI Assistant":
         .chat-container {
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(128, 128, 128, 0.5);
-            background-color: #444444; /* very dark gray, easier on eyes than pure black */
             padding: 0;
-            height: calc(100vh - 250px);
             display: flex;
             flex-direction: column;
         }
         .chat-input-container {
             padding: 15px;
-            background-color: #1e1e1e; /* dark gray */
             border-top: 1px solid #444444; /* subtle border */
             border-radius: 0 0 10px 10px;
             color: #eee; /* text color for input area */
@@ -353,14 +351,11 @@ elif selection == "💬 AI Assistant":
         .chat-messages {
             flex-grow: 1;
             padding: 20px;
-            overflow-y: auto;
-            background-color: #444444; /* keep messages background grey */
+            overflow-y: auto;   
             color: #000; /* message text color */
         }
         .chat-input-container {
             padding: 15px;
-            background-color: #444444;
-            border-top: 1px solid #444444;
             border-radius: 0 0 10px 10px;
         }
         .user-message {
@@ -391,57 +386,50 @@ elif selection == "💬 AI Assistant":
 
     st.markdown('<p class="title">💬 Medical AI Assistant</p>', unsafe_allow_html=True)
     st.markdown('<p class="subtitle">Ask me anything about medical conditions, symptoms, or treatments</p>', unsafe_allow_html=True)
-    
-    # Main chat container
-    with st.container():
-        # Chat header
-        st.markdown('<div class="chat-header">Medical Assistant Chat</div>', unsafe_allow_html=True)
-        
-        # Chat messages area
-        st.markdown('<div class="chat-messages">', unsafe_allow_html=True)
-        for message in st.session_state.messages:
-            if message["role"] == "user":
-                st.markdown(
-                    f"""
-                    <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
-                        <div class="user-message">
-                            {message["content"]}
-                            <div class="message-time">{datetime.datetime.now().strftime("%H:%M")}</div>
-                        </div>
+    # Chat header
+    st.markdown('<div class="chat-header">Medical Assistant Chat</div>', unsafe_allow_html=True)
+
+    # Chat messages area
+    for message in st.session_state.messages:
+        if message["role"] == "user":
+            st.markdown(
+                f"""
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                    <div class="user-message">
+                        {message["content"]}
+                        <div class="message-time">{datetime.datetime.now().strftime("%H:%M")}</div>
                     </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-            else:
-                st.markdown(
-                    f"""
-                    <div style="display: flex; justify-content: flex-start; margin-bottom: 8px;">
-                        <div class="assistant-message">
-                            {message["content"]}
-                            <div class="message-time">{datetime.datetime.now().strftime("%H:%M")}</div>
-                        </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown(
+                f"""
+                <div style="display: flex; justify-content: flex-start; margin-bottom: 8px;">
+                    <div class="assistant-message">
+                        {message["content"]}
+                        <div class="message-time">{datetime.datetime.now().strftime("%H:%M")}</div>
                     </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-        st.markdown('</div>', unsafe_allow_html=True)  # Close chat-messages
-        
-        # Chat input area
-        st.markdown('<div class="chat-input-container">', unsafe_allow_html=True)
-        if prompt := st.chat_input("Type your medical question here..."):
-            # Add user message to chat history
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            
-            # Generate assistant response
-            with st.spinner("Thinking..."):
-                response = generate_ai_response(prompt)
-                st.session_state.messages.append({"role": "assistant", "content": response})
-                
-                # Rerun to update the chat display
-                st.rerun()
-        
-        st.markdown('</div>', unsafe_allow_html=True)  # Close chat-input-container
-        st.markdown('</div>', unsafe_allow_html=True)  # Close chat-container
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+    # Chat input area
+    if prompt := st.chat_input("Type your medical question here..."):
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": prompt})
+
+        # Generate assistant response
+        with st.spinner("Thinking..."):
+            response = generate_ai_response(prompt)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+
+            # Rerun to update the chat display
+            st.rerun()
+
+    st.markdown('</div>', unsafe_allow_html=True)  # Close chat-input-container
+    st.markdown('</div>', unsafe_allow_html=True)  # Close chat-container
 # --- Nearby Hospital Section ---
 elif selection == "🏥 Nearby Hospitals":
     st.markdown('<p class="title">Find Nearby Hospitals 🏥</p>', unsafe_allow_html=True)
@@ -465,11 +453,22 @@ elif selection == "🏥 Nearby Hospitals":
 elif selection == "ℹ️ About":
     st.markdown('<p class="title">About This App 📘</p>', unsafe_allow_html=True)
     st.write("""
-        This AI-powered app helps diagnose skin and medical conditions using image recognition and symptom analysis.
-        \nBuilt for underserved communities and remote regions to make healthcare more accessible.
-        \n\n**Developer:** Ogwumike Ugochukwu Belusochim  
-        **Technologies:** Streamlit, TensorFlow, GANs, EfficientNet, Python
+        This AI-powered medical diagnosis app uses deep learning to assist in identifying seven common skin conditions:
+
+        - Actinic keratoses and intraepithelial carcinoma
+        - Basal cell carcinoma
+        - Benign keratosis-like lesions
+        - Dermatofibroma
+        - Melanoma
+        - Melanocytic nevi
+        - Vascular lesions
+
+        The app is designed to support individuals in underserved communities and remote regions, making essential dermatological care more accessible.
+
+        **Developer:** Ogwumike Ugochukwu Belusochim  
+        **Technologies Used:** Streamlit, TensorFlow, GANs, EfficientNet, Python
     """)
+
 
 # --- Footer ---
 st.markdown("---")
