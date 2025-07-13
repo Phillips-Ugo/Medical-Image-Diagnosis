@@ -11,8 +11,8 @@ This project is an AI-driven healthcare application aimed at improving early det
 
 * ✅ **Skin Disease Classification** with a fine-tuned EfficientNet CNN model
 * ⚖️ **Class Imbalance Handling** using GAN-generated synthetic dark skin images and resampling techniques
-* 🧬 **Medical Chatbot** providing condition overviews, symptoms, causes, and treatment options
-* 📍 **Nearby Medical Facility Locator** via geolocation integration
+* 🧬 **Medical Chatbot** A fine-tuned LLM trained on possible medical queries that provides condition overviews, symptoms, causes, and treatment options
+* 📍 **Nearby Medical Facility Locator** Provides five closest hospitals via geolocation integration and maps API
 * 📊 **Diagnosis History Tracking** saved locally
 * 🌐 **Streamlit Web Interface** for easy access and interaction
 
